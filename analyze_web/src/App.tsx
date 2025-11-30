@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import snarkdown from "snarkdown";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isLoading, setIsLoading] = useState(false);
+  const [videoUrl, setVideoUrl] = useState("");
+  const [summary, setSummary] = useState("");
+
+  const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setVideoUrl(e.target.value);
+  };
+
+  const handleAnalyze = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `http://localhost:8000/video/transcript?url=${encodeURIComponent(
+          videoUrl
+        )}`
+      );
+      const data = await response.json();
+      setSummary(data.summary);
+    } catch (error) {
+      console.error("Error fetching summary:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="container">
+      <div className="header">
+        <h1>YouTube Video Analyzer</h1>
+        <p>Analyze and summarize YouTube video transcripts with ease.</p>
       </div>
-      <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <div className="input-section">
+          <input type="text" onChange={handleOnChange} />
+          <button onClick={handleAnalyze} disabled={isLoading}>
+            {isLoading ? "Analyzing..." : "Analyze Video"}
+          </button>
+        </div>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+
+      <div className="card summary">
+        <h2>Summary</h2>
+        {summary ? (
+          <p
+            dangerouslySetInnerHTML={{
+              __html: snarkdown(summary),
+            }}
+          />
+        ) : (
+          <p>Your summarized transcript will appear here.</p>
+        )}
+      </div>
+      <div className="footer">
+        <p>Feel free to fork and do what you need :)</p>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
