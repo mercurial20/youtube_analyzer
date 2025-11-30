@@ -1,11 +1,26 @@
 from fastapi import FastAPI
 from gemini_client import summarize_long_text
 from starlette.exceptions import HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_utils import extract_youtube_id
 
 app = FastAPI()
 ytt_api = YouTubeTranscriptApi()
+
+origins = [
+    "http://localhost:5173",   # Vite dev server
+    "http://127.0.0.1:5173",
+    # сюда потом можно добавить прод-урлы фронта
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,          # или ["*"] для вообще всех
+    allow_credentials=True,
+    allow_methods=["*"],            # GET, POST и т.д.
+    allow_headers=["*"],            # Authorization, Content-Type и т.п.
+)
 
 
 @app.get("/video/transcript")
