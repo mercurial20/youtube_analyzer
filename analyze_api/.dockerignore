@@ -1,0 +1,19 @@
+# виртуальное окружение
+.venv/
+
+# кеши питона
+__pycache__/
+*.py[cod]
+*.pyo
+
+# гит и прочий мусор
+.git/
+.gitignore
+.env
+.env.*
+.vscode/
+.idea/
+
+# артефакты
+dist/
+build/

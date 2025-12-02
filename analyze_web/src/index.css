@@ -78,3 +78,7 @@ body{
 .footer{
   margin: 2rem;
 }
+
+.summary-text code {
+  white-space: pre-wrap;
+}

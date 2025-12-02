@@ -1,0 +1,19 @@
+services:
+  api:
+    build: ./analyze_api
+    env_file:
+      - ./analyze_api/.env
+    networks:
+      - app-net
+
+  web:
+    build:
+      context: ./analyze_web
+    depends_on:
+      - api
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge

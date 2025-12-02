@@ -14,9 +14,7 @@ function App() {
     setIsLoading(true);
     try {
       const response = await fetch(
-        `http://localhost:8000/video/transcript?url=${encodeURIComponent(
-          videoUrl
-        )}`
+        `/api/video/transcript?url=${encodeURIComponent(videoUrl)}`
       );
       const data = await response.json();
       setSummary(data.summary);
@@ -46,6 +44,7 @@ function App() {
         <h2>Summary</h2>
         {summary ? (
           <p
+            className="summary-text"
             dangerouslySetInnerHTML={{
               __html: snarkdown(summary),
             }}

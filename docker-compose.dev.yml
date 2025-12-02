@@ -1,0 +1,8 @@
+services:
+  api:
+    ports:
+      - "8000:8000"   # Swagger http://localhost:8000/docs
+
+  web:
+    ports:
+      - "4173:80"     # фронт доступен на http://localhost:4173

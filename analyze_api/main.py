@@ -47,7 +47,7 @@ def get_transcript(url: str):
     try:
         summary = summarize_long_text(full_text)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Summarization failed: {e}")
+        raise HTTPException(status_code=500, detail=f"Summarization failed: {e} {full_text}")
 
     return {
         "video_id": videoId,
