@@ -6,7 +6,7 @@ Tool that fetches a YouTube transcript and produces a concise summary with Gemin
 
 - MVP in progress; happy-path works.
 - Minimal, distraction-free UI/UX.
-- Docker packaging is planned to simplify deployment anywhere.
+- Dockerfiles and compose configs are in place (dev/prod overlays).
 - Plan: publish a trial on a free hosting; the link will appear here once ready.
 
 ### How to run locally
@@ -35,12 +35,21 @@ pnpm dev  # defaults to http://localhost:5173
 
 Frontend calls `http://localhost:8000/video/transcript/?url=...`, so run the backend first.
 
+### Run with Docker Compose
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+OR
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+```
+
+Place your `.env` with `GEMINI_API_KEY` in `analyze_api/.env` before building.
+
 ### What’s next
 
-- Dockerfile/compose to build frontend + backend with a single command.
 - Trial sandbox on free hosting (link will be added here once live).
 - Small UX improvements (persist last links, dark/light mode).
-- Change all hardcoded links to .env
+- Move hardcoded URLs to env configs.
 
 # YouTube Analyze (MVP)
 
@@ -50,7 +59,7 @@ Frontend calls `http://localhost:8000/video/transcript/?url=...`, so run the bac
 
 - MVP в разработке, базовый happy-path работает.
 - Дизайн и UX минималистичные, без дополнительных экранов.
-- Скоро добавлю Docker-сборку, чтобы упростить деплой куда угодно.
+- Есть Dockerfile и docker-compose (dev/prod слои).
 - План: задеплоить trial-версию на бесплатный хостинг; здесь появится ссылка, как только будет готово.
 
 ## Как запустить локально
@@ -77,7 +86,17 @@ pnpm install
 pnpm dev  # по умолчанию http://localhost:5173
 ```
 
-Фронт стучится на `http://localhost:8000/video/transcript/?url=...`, поэтому важно запустить бэкенд перед отправкой запросов.
+## Запуск через Docker Compose
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+
+ИЛИ
+
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+```
+
+Положи `.env` с `GEMINI_API_KEY` в `analyze_api/.env` перед сборкой.
 
 ## Что планируется дальше
 
